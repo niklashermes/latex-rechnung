@@ -1,3 +1,7 @@
+## Sensitive data
+customer_data.tex
+invoice_number.tex
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
