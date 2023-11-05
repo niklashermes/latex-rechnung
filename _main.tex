@@ -8,6 +8,7 @@
 \usepackage[ngerman]{babel}
 \usepackage{color}
 \usepackage[hidelinks]{hyperref}
+\usepackage{tabularx, booktabs, advdate, eso-pic}
 
 \usepackage[german]{invoice}
 
@@ -35,33 +36,43 @@
    \parbox[t][\headheight][t]{6cm}{%
    \footnotesize
    \raggedright
-   \flushright
+   \begin{flushright}
    \color[gray]{.3}%
-	\begin{tabular}{rl}
-		 Anschrift & \usekomavar{fromname}\\
-		 & \senderStreet\\
-		 & \senderZIP  \ \senderCity \\
-		 \\
-		 %\Telefon \ Telefon:  \` \senderTelephone \\
-		 Mobil  & \usekomavar{frommobilephone} \\
-		 E-Mail  & \usekomavar{fromemail} \\
-		 Webseite & {\normalfont\ttfamily  \senderWeb } \\
-		 \\
-		 Steuernummer & \taxID \\
-		 \\
-		 Institut & \accountBankName \\
-		 IBAN & \accountIBAN \\
-		 BIC & \accountBIC
-	\end{tabular}	 			    
-   }%
+		\begin{tabular}{rl}
+			Anschrift & \usekomavar{fromname}\\
+			& \senderStreet\\
+			& \senderZIP  \ \senderCity \\[1em]
+			
+			Telefon & \usekomavar{frommobilephone} \\
+			%Threema-ID  & \senderThreema \\
+			E-Mail  & \usekomavar{fromemail} \\
+			Website & \url{\senderWeb} \\[1em]
+
+			%Steuernummer & \taxID \\
+			USt-IdNr. & \ustidnr \\[1em]
+			
+			Institut & \accountBankName \\
+			IBAN & \accountIBAN \\
+			BIC & \accountBIC
+		\end{tabular}
+	\end{flushright}	    
+   }
 }
+
+\AddToShipoutPictureBG*{%
+	\AtTextLowerLeft{\makebox[\textwidth][r]{%
+			\href{https://www.paypal.com/qrcodes/managed/5f4db0c4-304e-4156-ad49-fd3c32a8df6f}{\includegraphics[width=4cm,height=4cm,keepaspectratio]{qrcode}}}}}
 
 
 \begin{document}
-	\begin{letter}{\customerCompany \\ \customerName \\ 
-	\customerStreet \\ \customerZIP \ \customerCity}
+	\begin{letter}{ \customerCompany \hfill \shippingCompany \\
+					\customerName \hfill \shippingName \\
+					\customerExtended \hfill \shippingExtended \\
+					\customerStreet \hfill \shippingStreet \\
+					\customerZIP \ \customerCity \hfill \shippingZIP \ \shippingCity \\
+					\customerEmail}
 	
-			\includegraphics[width=0.15\textwidth]{logo.png}			
+				\includegraphics[width=0.36\textwidth]{logo.eps}			
 			\opening{\invoiceSalutation}
 			\invoiceText
 		    \begin{invoice}{Euro}{0}
@@ -69,12 +80,9 @@
 		    \end{invoice}
 		\ps Im ausgewiesenen Betrag ist gemäß § 19 UStG keine Umsatzsteuer 
 		enthalten.
-		
-		\renewcommand*{\raggedsignature}{\raggedright} 
+
 		\closing{\invoiceClosing}
 		\invoiceEnclosures
-
-
 
 	\end{letter}
 \end{document}
